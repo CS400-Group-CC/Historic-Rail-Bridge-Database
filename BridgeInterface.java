@@ -29,12 +29,12 @@ public interface BridgeInterface extends Comparable<BridgeInterface> {
   public int getNumVersions();
 
   /**
-   * Gets the BridgeVersionInterface of a certain iteration of the bridge
+   * Gets the BCVersionInterface of a certain iteration of the bridge
    * 
    * @param index the version number of the bridge, starting at 0 for the earliest iteration of the
    *              bridge
-   * @return the BridgeVersionInterface associated with the specified version of the bridge
+   * @return the BCVersionInterface associated with the specified version of the bridge
    */
-  public BridgeVersionInterface getVersion(int index);
+  public BCVersionInterface getVersion(int index);
 
 }
