@@ -1,5 +1,7 @@
+import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class Frontend {
   // Class variables
@@ -10,7 +12,9 @@ public class Frontend {
   Double lat = null;
   Double lon = null;
   boolean coordsSet;
+  boolean cityTreeGenerated;
   boolean showASCII;
+  CitySearch cityList;
   Bridge currentBridge;
   
   public static void main(String[] args) {
@@ -20,6 +24,7 @@ public class Frontend {
   
   // no-arguments constructor for testing purposes
   public Frontend() {
+    cityTreeGenerated = false;
     foundError = false;
     coordsSet = false;
     showASCII = false;
@@ -35,6 +40,7 @@ public class Frontend {
       System.out.println("Error encountered in reading data set:\n" + error);
       System.out.println("Ensure that data file is correctly formatted.");
     }
+    cityTreeGenerated = false;
     coordsSet = false;
     showASCII = false;
   }
@@ -249,6 +255,8 @@ public class Frontend {
     System.out.println("\"r\": Reset current reference location");
     System.out.println("\"[latitude] [longitude]\": Set reference location to the specified coordinates,"
         + " in decimal degrees");
+    System.out.println("\"[city], [2-letter state abbreviation]\": Set reference location to the given"
+        + " city, searched based on cities in the US with zip codes");
     System.out.println("\"x\": Return to main screen\n");
     
     System.out.println("Enter \"x\" to return to the main help screen.");
@@ -356,8 +364,9 @@ public class Frontend {
   }
   
   private void locScreen() {
-    System.out.println("Enter a pair of coordinates (separated by a space) to set a new reference"
-        + " location, \"r\" to reset the set coordinates, or \"x\" to return to the main screen.");
+    System.out.println("Enter a city and 2-letter state abbreviation (separated by a comma) or a pair"
+        + " of coordinates (separated by a space) to set a new reference location, \"r\" to reset the"
+        + " reference location, or \"x\" to return to the main screen.");
     
     boolean exit = false;
     String input;
@@ -379,8 +388,60 @@ public class Frontend {
         continue;
       }
       else {
-        // After being stripped of end whitespace, correctly-entered coordinates should have at least one
-        // space between the values.  If not, it's an invalid input of some sort.
+        // If there is a comma in the input and there are two non-whitespace characters after it,
+        // it's a search for a city.
+        if (input.contains(",") && input.substring(input.indexOf(',') + 1).strip().length() == 2) {
+          // if the city search tree hasn't been generated, print that it's being generated
+          if (!cityTreeGenerated) {
+            System.out.println("Generating city search system, this may take a moment.");
+            try {
+              cityList = new CitySearch("City-Lat-Long.csv");
+              cityTreeGenerated = true;
+              System.out.println("Search system generated successfully.");
+              String searchString = input.substring(0, input.indexOf(',')).strip() + ", " +
+                  input.substring(input.indexOf(',') + 1).strip();
+              try{
+                double[] coords = cityList.getCityPosition(searchString);
+                lat = coords[0];
+                lon = coords[1];
+                coordsSet = true;
+                System.out.println("City coordinates found and set to reference location.");
+                exit = true;
+                continue;
+              } catch (NoSuchElementException notFound) {
+                System.out.println("City not found, enter a new command.");
+                continue;
+              }
+            } catch (FileNotFoundException noFile) {
+              System.out.println("Search system generation failed, city data file not found.  "
+                  + "Enter a new command.");
+              continue;
+            } catch (DataFormatException badFormat) {
+              System.out.println("Search system generation failed, city data formatting incorrect.  "
+                  + "Enter a new command.");
+              continue;
+            }
+          }
+          else {
+            String searchString = input.substring(0, input.indexOf(',')).strip() + ", " +
+                input.substring(input.indexOf(',') + 1).strip();
+            try{
+              double[] coords = cityList.getCityPosition(searchString);
+              lat = coords[0];
+              lon = coords[1];
+              coordsSet = true;
+              System.out.println("City coordinates found and set to reference location.");
+              exit = true;
+              continue;
+            } catch (NoSuchElementException notFound) {
+              System.out.println("City not found, enter a new command.");
+              continue;
+            }
+          }
+          
+        }
+        // If not a city, coordinates will have at least one space between words.
+        // If not, it's an invalid input of some sort.
         if (input.contains(" ")) {
           String coord1 = input.substring(0, input.indexOf(' ')).strip();
           String coord2 = input.substring(input.indexOf(' ')).strip();
