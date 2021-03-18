@@ -49,14 +49,21 @@ public class CitySearch {
     Scanner input = new Scanner(file);
     input.useDelimiter(",");
     if (!input.hasNext()) {
+      input.close();
       throw new DataFormatException("City list could not be generated with an empty data set");
     }
-    input.nextLine();
+    if (!input.nextLine().equals("City,State,Latitude,Longitude")) {
+      input.close();
+      throw new DataFormatException();
+    }
     while (input.hasNextLine()) {
       try {
         tree.insert(new City(new Scanner(input.nextLine())));
       } catch (IllegalArgumentException e) {
 
+      } catch (Exception unexpected) {
+        input.close();
+        throw new DataFormatException();
       }
     }
     input.close();
