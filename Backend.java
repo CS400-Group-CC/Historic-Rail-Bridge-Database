@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Backend implements BackendInterface {
   
   //BridgeDataObject
-  private BridgeDataReaderDummy bridgeDataReader;
+  private BridgeDataReader bridgeDataReader;
   
   private RedBlackTree<BridgeInterface> tree;
   
@@ -18,7 +18,7 @@ public class Backend implements BackendInterface {
    * @param args
    */
   public Backend(String[] args ) {
-    bridgeDataReader = new BridgeDataReaderDummy(args);
+    bridgeDataReader = new BridgeDataReader(args);
     
     tree = new RedBlackTree<BridgeInterface>();
     
@@ -32,7 +32,7 @@ public class Backend implements BackendInterface {
    * @param input
    */
   public Backend(Scanner input) {
-    bridgeDataReader = new BridgeDataReaderDummy(input);
+    bridgeDataReader = new BridgeDataReader(input);
     
     tree = new RedBlackTree<BridgeInterface>();
     
@@ -225,7 +225,7 @@ public class Backend implements BackendInterface {
                Math.pow(Math.sin(dLon / 2), 2) *  
                Math.cos(lat1) *  
                Math.cos(lat2); 
-    double rad = 6371; 
+    double rad = 3958.8; 
     double c = 2 * Math.asin(Math.sqrt(a)); 
     return rad * c; 
   }
