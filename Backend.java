@@ -87,6 +87,15 @@ public class Backend implements BackendInterface {
     // TODO Auto-generated method stub
     return tree.size();
   }
+  
+  /**
+   * An accessor for the bridge prefix
+   * 
+   * @return bridge prefix
+   */
+  public String getPrefix() {
+    return bridgeDataReader.getPrefix();
+  }
 
   
   /**
@@ -99,6 +108,73 @@ public class Backend implements BackendInterface {
   public String getFormatHelp() {
     // TODO Auto-generated method stub
     return bridgeDataReader.getFormatHelp();
+  }
+  
+  
+  /**
+   * Gets next bridge in tree order
+   * 
+   * @param current bridge
+   * @return next bridge
+   */
+  public BridgeInterface getNext(BridgeInterface current) {
+    
+    Iterator<BridgeInterface> iterator = tree.iterator();
+    
+    boolean found = false;
+    BridgeInterface foundBridge = null;
+    
+    while (iterator.hasNext() && found == false) {
+      BridgeInterface currentBridge = iterator.next();
+      if (currentBridge.compareTo(current) == 0) {
+        if (iterator.hasNext()) {
+          foundBridge = iterator.next();
+        }
+        found = true;
+      } else {
+        iterator.next();
+      }
+    }
+    
+    return foundBridge;
+  }
+  
+  
+  /**
+   * Gets previous bridge
+   * 
+   * @param current bridge
+   * @return previous bridge
+   */
+  public BridgeInterface getPrevious(BridgeInterface current) {
+    Iterator<BridgeInterface> iterator = tree.iterator();
+    
+    boolean found = false;
+    BridgeInterface foundBridge = null;
+    BridgeInterface previous = null;
+    
+    while (iterator.hasNext() && found == false) {
+      BridgeInterface currentBridge = iterator.next();
+      if (currentBridge.compareTo(current) == 0) {
+        foundBridge = previous;
+        found = true;
+      } else {
+        previous = currentBridge;
+        iterator.next();
+      }
+    }
+    
+    return foundBridge;
+    
+  }
+  
+  /**
+   * Gets root bridge
+   * 
+   * @return root bridge
+   */
+  public BridgeInterface getRoot() {
+    return tree.getRoot();
   }
 
   
@@ -204,6 +280,8 @@ public class Backend implements BackendInterface {
   /**
    * 
    * Calculates the distance, in miles, between two points
+   * 
+   * Used https://www.geeksforgeeks.org/haversine-formula-to-find-distance-between-two-points-on-a-sphere/
    * 
    * @param lat1
    * @param lat2

@@ -90,13 +90,22 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
   public T findItem(T input) throws NoSuchElementException {
     Node<T> inputNode = new Node(input);
     
-    T foundItem = findHelper(root, inputNode);
+    Node<T> foundItem = findHelper(root, inputNode);
     
     if (foundItem == null) {
       throw new NoSuchElementException("Element not found");
     }
     
-    return foundItem;
+    return foundItem.data;
+  }
+  
+  /**
+   * Gets root node
+   * 
+   * @return root node
+   */
+  public T getRoot() {
+    return root.data;
   }
   
   /**
@@ -106,13 +115,13 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
    * @param input
    * @return matching item or null if not found
    */
-  private T findHelper(Node<T> currentNode, Node<T> input) {
+  private Node<T> findHelper(Node<T> currentNode, Node<T> input) {
     
     int compare = currentNode.data.compareTo(input.data);
     
     //Found
     if (compare == 0) {
-      return currentNode.data;
+      return currentNode;
     } 
     //No children
     else if (currentNode.leftChild == null && currentNode.rightChild == null) {
