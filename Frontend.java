@@ -474,7 +474,7 @@ public class Frontend {
           System.out.println("Incorrect bridge number format.");
           continue;
         } catch (NoSuchElementException nearest) {
-          String nearestNum = nearest.toString().substring(backend.getPrefix().length());
+          String nearestNum = nearest.getMessage().substring(backend.getPrefix().length());
           System.out.println("Bridge number not found, nearest was " + nearestNum);
           continue;
         }
@@ -496,7 +496,7 @@ public class Frontend {
           System.out.println("Incorrect bridge number format.");
           continue;
         } catch (NoSuchElementException nearest) {
-          System.out.println("Bridge name not found, nearest was " + nearest);
+          System.out.println("Bridge name not found, nearest was " + nearest.getMessage());
           continue;
         }
       }
