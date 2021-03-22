@@ -55,7 +55,7 @@ public class Bridge implements BridgeInterface {
   }
   @Override
   public int compareTo(BridgeInterface other) {
-    // TODO Auto-generated method stub
+    // TODO Confirm that the bridge is formatted right, make everything case-insensitive
     
     String modifiedName = name.substring(bridgePrefix.length(), name.length());
     if (modifiedName.contains(numberDivider)) {
@@ -163,5 +163,8 @@ public class Bridge implements BridgeInterface {
     }
     throw new IllegalArgumentException("Index was beyond the bounds of the bridge version list");
   }
-
+  @Override
+  public String toString() {
+    return name;
+  }
 }
