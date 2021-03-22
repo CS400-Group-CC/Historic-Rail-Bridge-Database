@@ -94,7 +94,7 @@ public class Backend implements BackendInterface {
    * @return bridge prefix
    */
   public String getPrefix() {
-    return bridgeDataReader.getPrefix();
+    return bridgeDataReader.getBridgePrefix();
   }
 
   
