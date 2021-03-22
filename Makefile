@@ -9,13 +9,17 @@
 
 # Main options that can be run with Makefile
 
-run: compile
+runCNW: compile
 	export COLUMNS
 	java Frontend CNWBridges.csv
 
+runIC: compile
+	export COLUMNS
+	java Frontend ICBridges.csv
+
 compile: compileRedBlackTree compileSystems compileTests 
 
-test: DataWranglerTests testBackend FrontEndDeveloperTests
+test: DataWranglerTests testBackend FrontEndDeveloperTests Backend2 BridgeDataReaderDummy
 
 testFrontend: compile
 	java FrontEndDeveloperTests
@@ -92,3 +96,9 @@ DataWranglerTests.class: DataWranglerTests.java
 
 TestBackend.class: TestBackend.java
 	javac  .:junit5.jar TestBackend.java
+
+Backend2.class: Backend2.java
+	javac Backend2.java
+
+BridgeDataReaderDummy.class: BridgeDataReaderDummy.class
+	javac BridgeDataReaderDummy.java
