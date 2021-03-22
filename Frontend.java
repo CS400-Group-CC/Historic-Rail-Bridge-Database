@@ -154,7 +154,7 @@ public class Frontend {
             + " can be found by entering the command.");
         System.out.println("To leave the help screen, press \"x\".\n");
         
-        System.out.println("\"l\": Set or reset refernce location");
+        System.out.println("\"l\": Set or reset reference location");
         System.out.println("\"s\": Search by bridge name");
         System.out.println("\"ls\": Search for the nearest bridge to the set reference location");
         System.out.println("\"v\": View information for the last bridge visited");
