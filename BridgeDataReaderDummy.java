@@ -13,7 +13,7 @@ public class BridgeDataReaderDummy implements BridgeDataReaderInterface {
   }
   
   @Override
-  public List<BridgeInterface> readDataSet() {
+  public List<BridgeInterface> getBridges() {
     
     ArrayList<BridgeInterface> bridges = new ArrayList<BridgeInterface>();
     
@@ -22,7 +22,7 @@ public class BridgeDataReaderDummy implements BridgeDataReaderInterface {
       @Override
       public int compareTo(BridgeInterface o) {
         // TODO Auto-generated method stub
-        return 0;
+        return 1;
       }
 
       @Override
@@ -107,7 +107,7 @@ public class BridgeDataReaderDummy implements BridgeDataReaderInterface {
       
     });
     
-    return null;
+    return bridges;
   }
 
   @Override
@@ -126,6 +126,11 @@ public class BridgeDataReaderDummy implements BridgeDataReaderInterface {
   public String getBridgePrefix() {
     // TODO Auto-generated method stub
     return "V-";
+  }
+  
+  @Override
+  public String getNumberDivider() {
+    return "";
   }
 
   @Override
