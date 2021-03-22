@@ -1,65 +1,62 @@
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class TestBackend {
+class TestBackend {
 
+  
+  /**
+   * Tests the constructor of the backend
+   */
   @Test
-  public void TestConstructor() {
-    BridgeDataReaderDummy dummyReader = new BridgeDataReaderDummy(new String[0]);
-    ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) dummyReader.readDataSet();
+  void testConstructor() {
+    Backend2 backend = new Backend2(new String[0]);
+    int bridges = backend.getNumBridges();
     
-    boolean complete = false;
-    if (bridges != null)
-      complete = true;
-    
-    assertEquals(complete, true);
-    
+    assertEquals(1, bridges);
   }
   
+  /**
+   * Tests the get railroad function of the backend
+   */
   @Test
-  public void TestGetName() {
-    BridgeDataReaderDummy dummyReader = new BridgeDataReaderDummy(new String[0]);
-    ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) dummyReader.readDataSet();
+  void testGetRailroad() {
+    Backend2 backend = new Backend2(new String[0]);
+    String result = backend.getRailroad();
     
-    BridgeInterface bridge = bridges.get(0);
-    String name = bridge.getName();
-    
-    assertEquals(name, "45");
-    
+    assertEquals("Universal", result);
   }
   
+  /**
+   * Tests the get region function of the backend
+   */
   @Test
-  public void TestGetNumBridges() {
-    BridgeDataReaderDummy dummyReader = new BridgeDataReaderDummy(new String[0]);
-    ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) dummyReader.readDataSet();
+  void testGetRegion() {
+    Backend2 backend = new Backend2(new String[0]);
+    String result = backend.getRegion();
     
-    int size = bridges.size();
-    
-    assertEquals(size, 1);
-    
+    assertEquals("Dodgeville-Jonesdale", result);
   }
   
+  /**
+   * Tests the get root function of the backend.
+   */
   @Test
-  public void TestGetRegion() {
-    BridgeDataReaderDummy dummyReader = new BridgeDataReaderDummy(new String[0]);
-    ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) dummyReader.readDataSet();
+  void testGetRoot() {
+    Backend2 backend = new Backend2(new String[0]);
+    BridgeInterface result = backend.getRoot();
     
-    String name = dummyReader.getRegion();
-    
-    assertEquals(name, "Dodgeville-Jonesdale");
-    
+    assertEquals(result.getName(), "45");
   }
   
+  /**
+   * Tests the get next bridge function of the backend
+   */
   @Test
-  public void TestGetRailroad() {
-    BridgeDataReaderDummy dummyReader = new BridgeDataReaderDummy(new String[0]);
-    ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) dummyReader.readDataSet();
+  void testGetNext() {
+    Backend2 backend = new Backend2(new String[0]);
+    BridgeInterface result = backend.getNext(backend.getRoot());
     
-    String name = dummyReader.getRailroad();
-    
-    assertEquals(name, "Universal");
-    
+    assertEquals(result, null);
   }
-  
+
 }
