@@ -85,10 +85,10 @@ CitySearch.class: CitySearch.java
 # Test functions
 
 FrontEndDeveloperTests.class: FrontEndDeveloperTests.java
-	javac FrontEndDeveloperTests.java
+	javac -cp .:junit5.jar FrontEndDeveloperTests.java 
 
 DataWranglerTests.class: DataWranglerTests.java
-	javac  DataWranglerTests.java
+	javac  .:junit5.jar DataWranglerTests.java
 
 TestBackend.class: TestBackend.java
-	javac TestBackend.java
+	javac  .:junit5.jar TestBackend.java
