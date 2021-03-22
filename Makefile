@@ -19,16 +19,8 @@ runIC: compile
 
 compile: compileRedBlackTree compileSystems compileTests 
 
-test: DataWranglerTests testBackend FrontEndDeveloperTests Backend2 BridgeDataReaderDummy
-
-testFrontend: compile
-	java FrontEndDeveloperTests
-
-testBackend: compile
-	java testBackend
-
-testData: compile
-	java DataWranglerTests
+testAll: compile
+	java -jar junit5.jar -cp . --scan-classpath
 
 clean:
 	$(RM) *.class
@@ -92,10 +84,10 @@ FrontEndDeveloperTests.class: FrontEndDeveloperTests.java
 	javac -cp .:junit5.jar FrontEndDeveloperTests.java 
 
 DataWranglerTests.class: DataWranglerTests.java
-	javac  .:junit5.jar DataWranglerTests.java
+	javac -cp .:junit5.jar DataWranglerTests.java
 
 TestBackend.class: TestBackend.java
-	javac  .:junit5.jar TestBackend.java
+	javac -cp .:junit5.jar TestBackend.java
 
 Backend2.class: Backend2.java
 	javac Backend2.java
