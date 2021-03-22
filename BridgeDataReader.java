@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 // --== CS400 File Header Information ==--
 // Name: Joseph Peplinski
@@ -37,7 +38,11 @@ public class BridgeDataReader implements BridgeDataReaderInterface {
       throw new DataFormatException(
           "Bridge Data Reader could not be generated with an empty data set");
     }
-    if (!input.next().equals("Railroad") || !input.next().equals("Region") || !input.next().equals("Bridge Prefix") || !input.next().equals("Number Divider") || !input.next().equals("Format Help")) {
+//    System.out.println(Arrays.toString(input.next().toCharArray()));
+//    System.out.println(Arrays.toString("Railroad".toCharArray()));
+    if (!input.next().substring(1).equals("Railroad") || !input.next().equals("Region") || !input.next().equals("Bridge Prefix") || !input.next().equals("Number Divider") || !input.next().equals("Format Help")) {
+      System.out.println(Arrays.toString(input.next().toCharArray()));
+      
       throw new DataFormatException("File header was not as expected");
     }
     input.nextLine();
