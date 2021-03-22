@@ -4,7 +4,7 @@
 // Team: CC
 // TA: Xi Chen
 // Lecturer: Gary Dahl
-// Notes to Grader: 
+// Notes to Grader:
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -79,7 +79,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
   protected Node<T> root; // reference to root node of tree, null when empty
   protected int size = 0; // the number of values in the tree
 
-  
+
   /**
    * Finds an item within the tree
    * 
@@ -89,16 +89,19 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
    */
   public T findItem(T input) throws NoSuchElementException {
     Node<T> inputNode = new Node(input);
-    
-    Node<T> foundItem = findHelper(root, inputNode);
-    
-    if (foundItem == null) {
-      throw new NoSuchElementException("Element not found");
+
+    Node<T> foundItem;
+
+    try {
+      foundItem = findHelper(root, inputNode);
+    } catch (NoSuchElementException e) {
+      throw e;
     }
-    
+
+
     return foundItem.data;
   }
-  
+
   /**
    * Gets root node
    * 
@@ -107,7 +110,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
   public T getRoot() {
     return root.data;
   }
-  
+
   /**
    * Recursive helper for finding a matching item
    * 
@@ -115,35 +118,35 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
    * @param input
    * @return matching item or null if not found
    */
-  private Node<T> findHelper(Node<T> currentNode, Node<T> input) {
-    
+  private Node<T> findHelper(Node<T> currentNode, Node<T> input) throws NoSuchElementException {
+
     int compare = currentNode.data.compareTo(input.data);
-    
-    //Found
+
+    // Found
     if (compare == 0) {
       return currentNode;
-    } 
-    //No children
+    }
+    // No children
     else if (currentNode.leftChild == null && currentNode.rightChild == null) {
-      return null;
-    } 
-    //Input is less than current
+      throw new NoSuchElementException(currentNode.toString());
+    }
+    // Input is less than current
     else if (compare > 0) {
       if (currentNode.leftChild != null)
         return findHelper(currentNode.leftChild, input);
       else
-        return null;
-    } 
-    //Input is greater than current
+        throw new NoSuchElementException(currentNode.toString());
+    }
+    // Input is greater than current
     else {
       if (currentNode.rightChild != null)
         return findHelper(currentNode.rightChild, input);
       else
-        return null;
+        throw new NoSuchElementException(currentNode.toString());
     }
-    
+
   }
-  
+
   /**
    * Performs a naive insertion into a binary search tree: adding the input data value to a new node
    * in a leaf position within the tree. After this insertion, no attempt is made to restructure or
@@ -164,7 +167,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
     if (root == null) {
       root = newNode;
       size++;
-      root.isBlack = true; //Root is always black
+      root.isBlack = true; // Root is always black
       return true;
     } // add first node to an empty tree
     else {
@@ -173,7 +176,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
         size++;
       else
         throw new IllegalArgumentException("This RedBlackTree already contains that value.");
-      root.isBlack = true; //Root is always black
+      root.isBlack = true; // Root is always black
       return returnValue;
     }
   }
@@ -198,7 +201,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       if (subtree.leftChild == null) { // left subtree empty, add here
         subtree.leftChild = newNode;
         newNode.parent = subtree;
-        enforceRBTreePropertiesAfterInsert(newNode); //Fix violations
+        enforceRBTreePropertiesAfterInsert(newNode); // Fix violations
         return true;
         // otherwise continue recursive search for location to insert
       } else
@@ -210,69 +213,71 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       if (subtree.rightChild == null) { // right subtree empty, add here
         subtree.rightChild = newNode;
         newNode.parent = subtree;
-        enforceRBTreePropertiesAfterInsert(newNode); //Fix violations
+        enforceRBTreePropertiesAfterInsert(newNode); // Fix violations
         return true;
         // otherwise continue recursive search for location to insert
       } else
         return insertHelper(newNode, subtree.rightChild);
     }
   }
-  
+
   /**
    * Enforces all red black tree properties and takes care of any violations
    * 
    * @param node - newly added node
    */
   private void enforceRBTreePropertiesAfterInsert(Node<T> node) {
-    
-    //Node is root
+
+    // Node is root
     if (node.parent == null) {
       return;
     }
-    //New nodes parent is black, no violation (Case 0)
+    // New nodes parent is black, no violation (Case 0)
     else if (node.parent.isBlack || node.isBlack) {
       enforceRBTreePropertiesAfterInsert(node.parent);
     }
-    //New nodes parent is red and uncle is red (Case 1)
+    // New nodes parent is red and uncle is red (Case 1)
     else if (node.parent.isBlack == false && getSiblingIsBlack(node.parent) == false) {
       Node<T> parent = node.parent;
       Node<T> grandparent = node.parent.parent;
       Node<T> uncle = getUncle(node);
-      
-      //Recolor
+
+      // Recolor
       parent.isBlack = true;
       uncle.isBlack = true;
       grandparent.isBlack = false;
-      
+
       enforceRBTreePropertiesAfterInsert(node.parent);
     }
-    //New nodes parent is red and uncle is black on same side (Case 2)
-    else if (node.parent.isBlack == false && getSiblingIsBlack(node.parent) && uncleOnSameSide(node)) {
-      
+    // New nodes parent is red and uncle is black on same side (Case 2)
+    else if (node.parent.isBlack == false && getSiblingIsBlack(node.parent)
+        && uncleOnSameSide(node)) {
+
       Node<T> newChild = node.parent;
-      
+
       rotate(node, node.parent);
-      
+
       enforceRBTreePropertiesAfterInsert(newChild);
     }
-    //New nodes parent is red and uncle is black on different side (Case 3)
-    else if (node.parent.isBlack == false && getSiblingIsBlack(node.parent) && !uncleOnSameSide(node)) {
-      
+    // New nodes parent is red and uncle is black on different side (Case 3)
+    else if (node.parent.isBlack == false && getSiblingIsBlack(node.parent)
+        && !uncleOnSameSide(node)) {
+
       Node<T> parent = node.parent;
       Node<T> grandparent = node.parent.parent;
-      
+
       rotate(node.parent, node.parent.parent);
-      
-      //Recolor
+
+      // Recolor
       parent.isBlack = true;
       grandparent.isBlack = false;
-      
+
       enforceRBTreePropertiesAfterInsert(node.parent);
     }
-    
-    
+
+
   }
-  
+
   /**
    * Gets sibling of node
    * 
@@ -288,7 +293,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       return null;
     }
   }
-  
+
   /**
    * Checks if sibling is black
    * 
@@ -307,15 +312,14 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       Node<T> sibling = node.parent.rightChild;
       if (sibling != null) {
         return sibling.isBlack;
-      }
-      else {
+      } else {
         return true;
       }
     } else {
       return true;
     }
   }
-  
+
   /**
    * Checks if node and uncle are on the same side
    * 
@@ -329,7 +333,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       } else {
         return false;
       }
-    } else if (node.parent.rightChild == node){
+    } else if (node.parent.rightChild == node) {
       if (node.parent.parent.rightChild != node.parent) {
         return true;
       } else {
@@ -339,7 +343,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
       return false;
     }
   }
-  
+
   /**
    * Gets uncle of current node
    * 
@@ -349,7 +353,7 @@ public class RedBlackTree<T extends Comparable<T>> implements SortedCollectionIn
   private Node<T> getUncle(Node<T> node) {
     Node<T> parent = node.parent;
     Node<T> grandparent = parent.parent;
-    
+
     if (grandparent.leftChild == parent) {
       return grandparent.rightChild;
     } else {
