@@ -195,7 +195,7 @@ public class Backend2 implements BackendInterface {
   public BridgeInterface getBridge(String input)
       throws IllegalArgumentException, NoSuchElementException {
     
-    BridgeInterface inputBridge = new BridgeInterface(input, bridgeDataReader.getBridgePrefix(), 
+    BridgeInterface inputBridge = new Bridge(input, bridgeDataReader.getBridgePrefix(), 
         bridgeDataReader.getNumberDivider());
     
     BridgeInterface foundBridge;

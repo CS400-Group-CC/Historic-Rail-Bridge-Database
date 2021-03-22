@@ -45,9 +45,11 @@ public class Backend implements BackendInterface {
    */
   private void loadTree() {
     ArrayList<BridgeInterface> bridges = (ArrayList<BridgeInterface>) bridgeDataReader.getBridges();
-    
-    for (BridgeInterface bridge : bridges) {
-      tree.insert(bridge);
+        
+    if (bridges != null) {
+      for (BridgeInterface bridge : bridges) {
+        tree.insert(bridge);
+      }
     }
     
   }
@@ -132,7 +134,8 @@ public class Backend implements BackendInterface {
         }
         found = true;
       } else {
-        iterator.next();
+        if (iterator.hasNext())
+          iterator.next();
       }
     }
     
@@ -192,7 +195,7 @@ public class Backend implements BackendInterface {
   public BridgeInterface getBridge(String input)
       throws IllegalArgumentException, NoSuchElementException {
     
-    BridgeInterface inputBridge = new BridgeInterface(input, bridgeDataReader.getBridgePrefix(), 
+    BridgeInterface inputBridge = new Bridge(input, bridgeDataReader.getBridgePrefix(), 
         bridgeDataReader.getNumberDivider());
     
     BridgeInterface foundBridge;
