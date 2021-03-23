@@ -1,8 +1,22 @@
+// --== CS400 File Header Information ==--
+// Name: Jeremy Peplinski
+// Email: japeplinski@wisc.edu
+// Team: CC (red)
+// Role: Frontend Developer
+// TA: Xi Chen
+// Lecturer: Gary Dahl
+// Notes to Grader: None
+
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
+/**
+ * A class to organize and run the UI for the rail bridge database, including extensive code for ASCII
+ * art generation.
+ * @author Jeremy Peplinski
+ */
 public class Frontend {
   // Class variables
   Backend backend;
@@ -22,12 +36,18 @@ public class Frontend {
   CitySearch cityList;
   Bridge currentBridge;
 
+  /**
+   * The main method to instantiate and run the frontend.
+   * @param args Command-line arguments containing the bridge data file path
+   */
   public static void main(String[] args) {
     Frontend frontend = new Frontend(args);
     frontend.run(frontend.backend);
   }
 
-  // no-arguments constructor for testing purposes
+  /**
+   * A no-arguments constructor for testing purposes, which does not set up ASCII mode.
+   */
   public Frontend() {
     cityTreeGenerated = false;
     foundError = false;
@@ -35,7 +55,11 @@ public class Frontend {
     showASCII = false;
   }
 
-  // more proper constructor for generation of variables, etc
+  /**
+   * A constructor for the Frontend, which uses the command line arguments to parse the provided data file
+   * and tries to get the terminal dimensions for ASCII mode.
+   * @param args Command-line arguments containing the bridge data file path
+   */
   public Frontend(String[] args) {
     try {
       backend = new Backend(args);
@@ -51,7 +75,7 @@ public class Frontend {
     try {
       String columnString;
       columnString = System.getenv("COLUMNS");
-      cols = Integer.getInteger(columnString);
+      cols = Integer.parseInt(columnString);
       linePrinter = new TerminalPrinting();
       asciiGen = new BridgePrinting();
       initASCII = true;
@@ -73,6 +97,10 @@ public class Frontend {
     }
   }
 
+  /**
+   * The system to actually begin running the UI, which is called from main.
+   * @param backend The Backend object containing the data used for the database
+   */
   public void run(Backend backend) {
     // If an exception was hit in generating the backend, return without doing anything.
     if (foundError) {
@@ -94,6 +122,10 @@ public class Frontend {
     mainScreen();
   }
 
+  /**
+   * A method controlling the user interface of the program's main screen, where main screen information 
+   * is printed and the core commands (such as search, location search, exit program) are entered.
+   */
   private void mainScreen() {
     boolean quit = false;
     boolean reprint = true;
@@ -167,6 +199,11 @@ public class Frontend {
         "Thanks for using the Historic Rail Bridge Database, now get out there and find one!");
   }
 
+  /**
+   * A method controlling the user interface of the program's help screen, where help information about 
+   * the main screen is printed, and where commands to return to the main screen or to view help 
+   * information for specific commands are entered.
+   */
   private void helpScreen() {
 
     // This variable controls whether we remain in the input-getting loop
@@ -185,16 +222,17 @@ public class Frontend {
         System.out.print("On the main screen, the following are valid commands.");
         System.out
             .println("  Further information on each command (other than the help screen and exit)"
-                + " can be found by entering the command.");
-        System.out.println("To leave the help screen, press \"x\".\n");
+                + " can be found by entering the command.\n");
 
         System.out.println("\"l\": Set or reset reference location");
         System.out.println("\"s\": Search by bridge name");
         System.out.println("\"ls\": Search for the nearest bridge to the set reference location");
         System.out.println("\"v\": View information for the last bridge visited");
-        System.out.println("\"?\" or \"help\": View help screen");
         System.out.println("\"a\": View ASCII mode settings");
+        System.out.println("\"?\" or \"help\": View help screen");
         System.out.println("\"x\": Exit the database program\n");
+        
+        System.out.println("To leave the help screen, press \"x\".");
       }
       input = inputs.nextLine().strip().toLowerCase();
 
@@ -235,10 +273,14 @@ public class Frontend {
     // Exit without printing anything
   }
 
+  /**
+   * A method controlling the user interface of the program's search help screen, where help information 
+   * about the search screen is printed, and where commands to return to the main help screen are entered.
+   */
   private void helpS() {
     System.out.println("This screen allows the database of bridges to be searched by bridge name.  "
         + "Names may be entered in upper or lower case, with or without the prefix to the bridge's number."
-        + "If a searched name is incorrectly formatted, a new command will be prompted.  "
+        + "  If a searched name is incorrectly formatted, a new command will be prompted."
         + "  If a search is correctly formatted but returns no match, the closest match found in the search"
         + " is displayed for reference before allowing entry of a new command.  The search screen can "
         + "also be exited by entering \"x\".  "
@@ -266,6 +308,11 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the user interface of the program's location search help screen, where help 
+   * information about the location search screen is printed, and where commands to return to the main 
+   * help screen are entered.
+   */
   private void helpLS() {
     System.out.println("This command searches the database for the bridge nearest to the reference "
         + "location currently set, and opens the viewing screen for this bridge.  "
@@ -290,6 +337,11 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the user interface of the program's location help screen, where help 
+   * information about the location screen is printed, and where commands to return to the main help 
+   * screen are entered.
+   */
   private void helpL() {
     System.out
         .println("This screen allows a reference location to be set, which allows one to search "
@@ -324,6 +376,11 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the user interface of the program's bridge viewer help screen, where help 
+   * information about the bridge viewer screen is printed, and where commands to return to the main 
+   * help screen are entered.
+   */
   private void helpV() {
     System.out.println("This command opens the bridge viewer screen to the last bridge viewed.  "
         + "On startup, without a last bridge viewed the  \"average\" bridge is shown.  Getting into the "
@@ -357,12 +414,17 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the user interface of the program's ASCII mode help screen, where help 
+   * information about the ASCII mode screen is printed, and where commands to return to the main help 
+   * screen are entered.
+   */
   private void helpA() {
     System.out.println("This screen allows the ASCII mode settings for the database to be modified."
         + "  ASCII mode allows basic representations of bridges to be generated from available data and"
         + " printed in the bridge viewer.  In order to do this accurately, the width of the terminal "
         + "must be known.  The program attempts to identify the terminal width on startup, but this is not"
-        + "possible on all systems, and only reflects the width of the terminal at startup.  Thus, if "
+        + " possible on all systems, and only reflects the width of the terminal at startup.  Thus, if "
         + "this cannot be identified or the terminal is resized, the printing of these ASCII "
         + "representations may break down.  This screen allows ASCII mode to be enabled and disabled, "
         + "and for the terminal width to be set manually.  Commands are shown below.\n");
@@ -390,6 +452,10 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the ASCII mode screen, where information about the terminal width can be entered 
+   * and ASCII mode can be enabled or disabled.
+   */
   private void asciiScreen() {
     System.out.println("Enter \"on\" or \"off\" to change the ASCII mode, a terminal width to set "
         + "(in columns), or \"x\" to return to the main screen.");
@@ -451,6 +517,10 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the name search screen, where bridges in the database can be searched for by 
+   * name or number.  A successful search jumps the user directly to the bridge viewer screen.
+   */
   private void nameSearchScreen() {
     System.out.println(backend.getFormatHelp() + "\n");
     System.out.println("Enter a bridge name/number to search for below,"
@@ -461,6 +531,11 @@ public class Frontend {
     while (!exit) {
       input = inputs.nextLine().strip();
 
+      // Leave screen
+      if (input.toLowerCase().equals("x")) {
+        exit = true;
+        continue;
+      }
       // Provide possibility of searching for the number without the prefix, case-insensitive
       if (!input.toLowerCase().startsWith(backend.getPrefix().toLowerCase())) {
         input = backend.getPrefix() + input;
@@ -475,14 +550,9 @@ public class Frontend {
           continue;
         } catch (NoSuchElementException nearest) {
           String nearestNum = nearest.getMessage().substring(backend.getPrefix().length());
-          System.out.println("Bridge number not found, nearest was " + nearestNum);
+          System.out.println("Bridge number not found, nearest was " + nearestNum + ".");
           continue;
         }
-      }
-      // Leave screen
-      if (input.toLowerCase().equals("x")) {
-        exit = true;
-        continue;
       }
       // Any other inputs will be treated as a full bridge name
       else {
@@ -496,7 +566,7 @@ public class Frontend {
           System.out.println("Incorrect bridge number format.");
           continue;
         } catch (NoSuchElementException nearest) {
-          System.out.println("Bridge name not found, nearest was " + nearest.getMessage());
+          System.out.println("Bridge name not found, nearest was " + nearest.getMessage() + ".");
           continue;
         }
       }
@@ -504,6 +574,11 @@ public class Frontend {
     // No output for exit, as bridge viewer will run within this method.
   }
 
+  /**
+   * A method controlling the location screen, where the reference location can be reset or a new 
+   * reference location set (either as a pair of coordinates or by searching for a town name from known 
+   * ZIP code coordinates).
+   */
   private void locScreen() {
     System.out
         .println("Enter a city and 2-letter state abbreviation (separated by a comma) or a pair"
@@ -613,6 +688,11 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling location searches, which jumps to the bridge viewer screen for the nearest 
+   * bridge found if a reference location is set, or does prints an error if no location is set.
+   * @return true if a reference location is set, false otherwise
+   */
   private boolean locSearch() {
     if (coordsSet) {
       viewScreen((Bridge) backend.getNearestBridge(lat, lon));
@@ -624,6 +704,11 @@ public class Frontend {
     }
   }
 
+  /**
+   * A method controlling the viewer screen, printing the initial version of the bridge and allowing the 
+   * user to cycle through bridges or bridge versions.
+   * @param toView the Bridge object to be viewed
+   */
   private void viewScreen(Bridge toView) {
     int versionIndex = 0;
     printBridgeVersion(toView, versionIndex);
@@ -697,6 +782,13 @@ public class Frontend {
     currentBridge = toView;
   }
 
+  /**
+   * A helper method for the viewer screen, which handles the printing of specified bridge versions.  The 
+   * style of printing is dependent on whether ASCII mode is enabled (based on the showASCII variable).  
+   * Handling of null Bridge objects or out-of-bounds version indexes is not explicitly provided.
+   * @param toView the Bridge object to generate a representation for
+   * @param version the version of toView to generate a representaiton for
+   */
   private void printBridgeVersion(Bridge toView, int version) {
     if (showASCII) {
       // Universal information
@@ -1040,6 +1132,12 @@ public class Frontend {
     }
   }
 
+  /**
+   * A helper method for systems of noting unknown information, converting an input value of -1 to a String 
+   * containing "Unknown" or otherwise passing the toString version of the input along.
+   * @param input an int-representation piece of data to be printed
+   * @return a String containing the appropriate toString version of this input
+   */
   private String unknownHelper(int input) {
     if (input == -1) {
       return "Unknown";
@@ -1048,6 +1146,12 @@ public class Frontend {
     }
   }
 
+  /**
+   * A helper method for systems of noting unknown information, converting an input value of -1.0 to a 
+   * String containing "Unknown" or otherwise passing the toString version of the input along.
+   * @param input a double-representation piece of data to be printed
+   * @return a String containing the appropriate toString version of this input
+   */
   private String unknownHelper(double input) {
     if (Double.compare(input, -1.0) == 0) {
       return "Unknown";
@@ -1056,6 +1160,12 @@ public class Frontend {
     }
   }
 
+  /**
+   * A helper method for systems of noting unknown information, converting a null input to a String 
+   * containing "Unknown" or otherwise passing the input along.
+   * @param input a String-representation piece of data to be printed
+   * @return a String containing the appropriate text for this input
+   */
   private String unknownHelper(String input) {
     if (input == null) {
       return "Unknown";
@@ -1064,12 +1174,28 @@ public class Frontend {
     }
   }
 
+  /**
+   * An inner class designed to handle ASCII-art representations of bridges, used in the viewer screen 
+   * when ASCII mode is enabled.
+   * @author Jeremy Peplinski
+   */
   private class BridgePrinting {
     // Universal variables for referencing scaling, in case I want to change this.
     double charWidth = 5.0;
     double charHeight = 10.0;
 
 
+    /**
+     * A method to get the number of columns necessary for printing the given BCVersion object.  This can 
+     * be calculated for the full length of the bridge, or just an approach or the main span(s).
+     * @param input the BCVersion to have a length calculated
+     * @param getFullLen whether or not the full length of the bridge should be calculated
+     * @param getMainSpan whether or not the main span's length should be calculated (if getFullLen is 
+     * false)
+     * @param getLowApp whether or not the low-side approach's length should be calculated (if getFullLen 
+     * and getMainSpan are false), calculating the high-side approach's length otherwise.
+     * @return the number of columns the given part of the bridge representation will require
+     */
     public int getBridgeCols(BCVersionInterface input, boolean getFullLen, boolean getMainSpan,
         boolean getLowApp) {
       // return number of columns necessary, or -1 if not able to be computed
@@ -1094,6 +1220,19 @@ public class Frontend {
       }
     }
 
+    /**
+     * A method to get the number of rows necessary (above track height) for printing the given BCVersion 
+     * object.  This can be calculated for the full length of the bridge, or just an approach or the 
+     * main span(s).
+     * @param input the BCVersion to have a height calculated
+     * @param getFullLen whether or not the height of the full bridge should be calculated
+     * @param getMainSpan whether or not the main span's height should be calculated (if getFullLen is 
+     * false)
+     * @param getLowApp whether or not the low-side approach's height should be calculated (if getFullLen 
+     * and getMainSpan are false), calculating the high-side approach's height otherwise.
+     * @return the number of rows above track level the given part of the bridge representation will 
+     * require
+     */
     public int getBridgeATHeight(BCVersionInterface input, boolean getFullLen, boolean getMainSpan,
         boolean getLowApp) {
       // return number of rows necessary for printing above track, or -1 if not able to be computed
@@ -1303,6 +1442,19 @@ public class Frontend {
       }
     }
 
+    /**
+     * A method to get the number of rows necessary (below track height) for printing the given BCVersion 
+     * object.  This can be calculated for the full length of the bridge, or just an approach or the 
+     * main span(s).
+     * @param input the BCVersion to have a height calculated
+     * @param getFullLen whether or not the height of the full bridge should be calculated
+     * @param getMainSpan whether or not the main span's height should be calculated (if getFullLen is 
+     * false)
+     * @param getLowApp whether or not the low-side approach's height should be calculated (if getFullLen 
+     * and getMainSpan are false), calculating the high-side approach's height otherwise.
+     * @return the number of rows below track level the given part of the bridge representation will 
+     * require
+     */
     public int getBridgeBTHeight(BCVersionInterface input, boolean getFullHeight,
         boolean getMainSpan, boolean getLowApp) {
       // return number of rows necessary for printing below track, or -1 if not able to be computed
@@ -1447,6 +1599,16 @@ public class Frontend {
       }
     }
 
+    /**
+     * The central method for getting the ASCII representation of a bridge, which returns the necessary 
+     * String for the representation at the given row number.  Row 0 is defined as track/road level, with 
+     * positive numbers being above the track/road and negative below.
+     * @param input the BCVersion to get an ASCII representation of
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation for the given bridge at the given row number.  If 
+     * the row number is outside of what is required, the returned string will contain the appropriate 
+     * number of spaces to match the length of other rows.
+     */
     public String getBridgeRep(BCVersionInterface input, int rowNum) {
       // return a string for the given bridge's ascii rep at the given row (0 being track height)
       // Note that this won't handle non-printable cases - that's the viewer's job
@@ -1800,6 +1962,21 @@ public class Frontend {
       }
     }
 
+    /**
+     * A method to generate the ASCII representation of a small truss bridge with the given specifications 
+     * as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of small truss bridge at the 
+     * specified row number.  If the row number is outside of what is required, the returned string will 
+     * contain the appropriate number of spaces to match the length of other rows.
+     */
     private String genSmallTruss(int length, int height, int spans, boolean isMainSpan,
         boolean isLowApp, char approachLoc, int rowNum) {
       String returnVal = "";
@@ -1944,6 +2121,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of a large truss bridge with the given specifications 
+     * as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of large truss bridge at the 
+     * specified row number.  If the row number is outside of what is required, the returned string will 
+     * contain the appropriate number of spaces to match the length of other rows.
+     */
     private String genLargeTruss(int length, int height, int spans, boolean isMainSpan,
         boolean isLowApp, char approachLoc, int rowNum) {
       String returnVal = "";
@@ -2155,6 +2347,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of an inverse square truss bridge with the given 
+     * specifications as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of inverse square truss bridge at the 
+     * specified row number.  If the row number is outside of what is required, the returned string will 
+     * contain the appropriate number of spaces to match the length of other rows.
+     */
     private String genInverseSquareTruss(int length, int height, int spans, boolean isMainSpan,
         boolean isLowApp, char approachLoc, int rowNum) {
       String returnVal = "";
@@ -2376,6 +2583,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of a square truss bridge with the given specifications 
+     * as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of square truss bridge at the 
+     * specified row number.  If the row number is outside of what is required, the returned string will 
+     * contain the appropriate number of spaces to match the length of other rows.
+     */
     private String genSquareTruss(int length, int height, int spans, boolean isMainSpan,
         boolean isLowApp, char approachLoc, int rowNum) {
       String returnVal = "";
@@ -2478,6 +2700,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of an inverse standard truss bridge with the given 
+     * specifications as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of inverse standard truss bridge at 
+     * the specified row number.  If the row number is outside of what is required, the returned string 
+     * will contain the appropriate number of spaces to match the length of other rows.
+     */
     private String genInverseTruss(int length, int height, int spans, boolean isMainSpan,
         boolean isLowApp, char approachLoc, int rowNum) {
       // A good amount of overlap with genInverseSquareTruss, so confirm issues aren't there as well
@@ -2701,6 +2938,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of an I-beam bridge with the given specifications as 
+     * is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of I-beam bridge at the specified 
+     * row number.  If the row number is outside of what is required, the returned string will contain the 
+     * appropriate number of spaces to match the length of other rows.
+     */
     private String genIB(int length, int height, int spans, boolean isMainSpan, boolean isLowApp,
         char approachLoc, int rowNum) {
       String returnVal = "";
@@ -2742,6 +2994,21 @@ public class Frontend {
       return returnVal;
     }
 
+    /**
+     * A method to generate the ASCII representation of a pile/frame bridge with the given specifications 
+     * as is necessary in the given row number.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isMainSpan whether or not this bridge is the main span
+     * @param isLowApp whether or not this bridge is the low-side approach (only considered if isMainSpan 
+     * is false)
+     * @param approachLoc the location of the bridge's approaches, as defined in the Bridge class
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of pile/frame bridge at the specified 
+     * row number.  If the row number is outside of what is required, the returned string will contain the 
+     * appropriate number of spaces to match the length of other rows.
+     */
     private String genPB(int length, int height, int spans, boolean isMainSpan, boolean isLowApp,
         char approachLoc, int rowNum) {
       String returnVal = "";
@@ -2804,6 +3071,19 @@ public class Frontend {
       return lAppend + returnVal + rAppend;
     }
 
+    /**
+     * A method to generate the ASCII representation of an overhead bridge with the given specifications 
+     * as is necessary in the given row number.  All overhead bridges are assumed to be of a pile bridge-
+     * like form.
+     * @param length the length of the bridge, in characters
+     * @param height the below-track height of the bridge, in characters
+     * @param spans the number of spans the bridge should have
+     * @param isRail whether or not the bridge running over the track is a rail bridge
+     * @param rowNum the row of the representation being generated
+     * @return a String of the ASCII representation of the given type of pile/frame bridge at the specified 
+     * row number.  If the row number is outside of what is required, the returned string will contain the 
+     * appropriate number of spaces to match the length of other rows.
+     */
     private String genOH(int length, int height, int spans, boolean isRail, int rowNum) {
       String returnVal = "";
 
@@ -3171,7 +3451,20 @@ public class Frontend {
     }
   }
 
+  /**
+   * An inner class designed to provide fancier forms of printing in the terminal, including centered 
+   * text, indented text, and more nuanced line-wrapping.
+   * @author Jeremy Peplinski
+   */
   private class TerminalPrinting {
+    /**
+     * A method to print a piece of text with the given characters at the edges of the screen, with 
+     * intervening space filled with the specified character.
+     * @param text a String to be printed
+     * @param lEdge the character to place at the left edge of the screen
+     * @param rEdge the character to place at the right edge of the screen
+     * @param fill the character to fill other space in the line with
+     */
     public void printCentered(String text, char lEdge, char rEdge, char fill) {
       if (cols <= 2) {
         return;
@@ -3225,6 +3518,17 @@ public class Frontend {
       }
     }
 
+    /**
+     * A method to print a piece of text, with the given characters at the edges of the screen and the 
+     * specified Strings on either side of the text, with intervening space filled with the specified 
+     * character.
+     * @param text a String to be printed
+     * @param lEdge the character to place at the left edge of the screen
+     * @param lTextEdge the String to be placed on the left side of the printed text
+     * @param rTextEdge the String to be placed on the right side of the printed text
+     * @param the character to place at the right edge of the screen
+     * @param fill the character to fill other space in the line with
+     */
     public void printCentered(String text, char lEdge, String lTextEdge, String rTextEdge,
         char rEdge, char fill) {
       if (text.length() + lTextEdge.length() + rTextEdge.length() + 2 > cols) {
@@ -3280,6 +3584,16 @@ public class Frontend {
       }
     }
 
+    /**
+     * A method to print a piece of text with the given characters at the edges of the screen, indented 
+     * from the left edge by roughly 1/7 of the screen width.  An extra indent can be added, largely for 
+     * the recursive use of this function when text must wrap.
+     * @param text a String to be printed
+     * @param lEdge the character to place at the left edge of the screen
+     * @param rEdge the character to place at the right edge of the screen
+     * @param hasExtraIndent whether or not the text should be indented further (intended for line 
+     * wrapping)
+     */
     public void printIndented(String text, char lEdge, char rEdge, boolean hasExtraIndent) {
       int indent;
       // basic indent amount
