@@ -1,29 +1,24 @@
 FrontEndDeveloper README for Project Two (CS400 @ UW Madison)
 ========================================================
 
-Name of FrontEndDeveloper: <enter your complete name here>
-@wisc.edu Email of FrontEndDeveloper: <enter your @wisc.edu email address here>
-Group: <enter your two letter group name here>
-Team: <enter your team color: red, blue, or purple, here>
+Name of FrontEndDeveloper: Jeremy Peplinski
+@wisc.edu Email of FrontEndDeveloper: japeplinski@wisc.edu
+Group: CC
+Team: Red
 
 Files Written by Me:
 --------------------
-<List all files that were within this project that were written by you, and
- include a short description of the purpose that each file servers>
+Frontend.java - A set of methods for printing the database's UI to the screen from the backend's organized data, allowing for extensive interaction with data and including systems for procedurally generating ASCII-art representations of bridges.
+FrontEndDeveloperTests.java -A basic test suite confirming the core functionality of the program, due to the nuances in the UI the majority of testing was carried out manually.
+ICBridges.csv - A data file for all currently-mapped bridges of the Illinois Central on its line between Dodgeville, WI and Red Oak, IL.  Written in collaboration with Joseph Peplinski.
+CNWBridges.csv - A data file for all (or as many as possible) currently-mapped bridges of the Chicago & North Western on its line between Galena, IL and Montfort, WI.  Written in collaboration with Joseph Peplinski.
 
 Additional Contributions:
 -------------------------
-<List any additional contributions that you have made toward your team's
- completion of this project.  This might include, but is not limited to things
- like: organizing team communication, creating extra tests or dummy classes,
- assisting team members in any way, etc.>
+Significant work in creation of the original proposal, helped other team members with ideas of how to approach method implementation, did original research for data sets and helped convert them into the form used in this program.
 
 Signature:
 ----------
-<Type out your full name here to certify that all of the files written by you
- that are listed above are the product of your individual development efforts
- for this programming assignment.  List below your name, any exceptions, for 
- example: work reused from a previous semester, code examples taken from any 
- website or book, or anything that was not explicitly authored by you for
- the purpose of completing this assigned CS400 project.>
+Jeremy Peplinski
+(Referenced P01's front end test code to understand how to use input and output streams to pass test commands to the system)
  

@@ -134,7 +134,7 @@ public class Frontend {
     while (!quit) {
       if (reprint) {
         System.out.println("You are currently viewing data for:");
-        System.out.println(backend.getRailroad() + " - " + backend.getRegion() + " Region.\n");
+        System.out.println(backend.getRailroad() + " - " + backend.getRegion() + " Region (" + backend.getNumBridges() + " bridges)\n");
         // Top printouts, not reprinted if incorrect commands are entered.
         if (coordsSet) {
           System.out.print("Current reference location: ");
