@@ -1,6 +1,13 @@
+// --== CS400 File Header Information ==--
+// Name: Joseph Peplinski
+// Email: jnpeplinski@wisc.edu
+// Team: CC Red
+// Role: Data Wrangler
+// TA: Xi Chen
+// Lecturer: Gary Dahl
+// Notes to Grader: None
+
 import java.util.List;
-import java.util.Scanner;
-import java.util.zip.DataFormatException;
 
 public interface BridgeDataReaderInterface {
   /**
