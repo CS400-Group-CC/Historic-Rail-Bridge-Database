@@ -1,15 +1,36 @@
+// --== CS400 File Header Information ==--
+// Name: Joseph Peplinski
+// Email: jnpeplinski@wisc.edu
+// Team: CC Red
+// Role: Data Wrangler
+// TA: Xi Chen
+// Lecturer: Gary Dahl
+// Notes to Grader: None
+
 import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
+/**
+ * A class which contains information relevant to bridges
+ * 
+ * @author Joseph Peplinski
+ *
+ */
 public class BridgeVersion implements BridgeVersionInterface {
 
   String specType, laType, haType, buildDate, fateDate, fate;
   double length, height, laLength, laHeight, haLength, haHeight;
   int spans, laSpans, haSpans;
   char approach;
-  
+
+  /**
+   * A constructor which takes a section of a .csv and interprets its information to make it
+   * accessible to other classes
+   * 
+   * @param input a Scanner which contains a section of a .csv relevant to one iteration of a bridge
+   * @throws DataFormatException if the data found in any cell was not of the expected type
+   */
   public BridgeVersion(Scanner input) throws DataFormatException {
-    // TODO Auto-generated constructor stub
     specType = input.next();
     length = input.nextDouble();
     height = input.nextDouble();
@@ -17,10 +38,12 @@ public class BridgeVersion implements BridgeVersionInterface {
     spans = input.nextInt();
     approach = input.next().charAt(0);
     if (approach == 'N') {
+      // No approaches, just skip over the next few lines
       for (int i = 0; i < 8; i++) {
         input.next();
       }
     } else if (approach == 'L') {
+      // Only one approach, get information on it and skip over the other approach
       laType = input.next();
       laLength = input.nextDouble();
       laHeight = input.nextDouble();
@@ -29,6 +52,7 @@ public class BridgeVersion implements BridgeVersionInterface {
         input.next();
       }
     } else if (approach == 'H') {
+      // Only one approach, skip over the low approach and get information on the high approach
       for (int i = 0; i < 4; i++) {
         input.next();
       }
@@ -36,8 +60,9 @@ public class BridgeVersion implements BridgeVersionInterface {
       haLength = input.nextDouble();
       haHeight = input.nextDouble();
       haSpans = input.nextInt();
-      
+
     } else if (approach == 'B') {
+      // Approaches on both sides, collect information on both of them
       laType = input.next();
       laLength = input.nextDouble();
       laHeight = input.nextDouble();
@@ -56,109 +81,91 @@ public class BridgeVersion implements BridgeVersionInterface {
 
   @Override
   public boolean isBridge() {
-    // TODO Auto-generated method stub
     return true;
   }
 
   @Override
   public boolean isCulvert() {
-    // TODO Auto-generated method stub
     return false;
   }
 
   @Override
   public String getSpecificType() {
-    // TODO Auto-generated method stub
     return specType;
   }
 
   @Override
   public double getLength() {
-    // TODO Auto-generated method stub
     return length;
   }
 
   @Override
   public double getHeight() {
-    // TODO Auto-generated method stub
     return height;
   }
 
   @Override
   public String getStartDate() {
-    // TODO Auto-generated method stub
     return buildDate;
   }
 
   @Override
   public String getEndDate() {
-    // TODO Auto-generated method stub
     return fateDate;
   }
 
   @Override
   public String getFate() {
-    // TODO Auto-generated method stub
     return fate;
   }
 
   @Override
   public int getSpans() {
-    // TODO Auto-generated method stub
     return spans;
   }
 
   @Override
   public char getApproachLoc() {
-    // TODO Auto-generated method stub
     return approach;
   }
 
   @Override
   public String getLAType() {
-    // TODO Auto-generated method stub
     return laType;
   }
 
   @Override
   public int getLASpans() {
-    // TODO Auto-generated method stub
     return laSpans;
   }
 
   @Override
   public double getLALength() {
-    // TODO Auto-generated method stub
     return laLength;
   }
 
   @Override
   public double getLAHeight() {
-    // TODO Auto-generated method stub
     return laHeight;
   }
 
   @Override
   public String getHAType() {
-    // TODO Auto-generated method stub
     return haType;
   }
 
   @Override
   public int getHASpans() {
-    // TODO Auto-generated method stub
     return haSpans;
   }
 
   @Override
   public double getHALength() {
-    // TODO Auto-generated method stub
     return haLength;
   }
 
   @Override
   public double getHAHeight() {
-    // TODO Auto-generated method stub
     return haHeight;
   }
 
