@@ -79,7 +79,7 @@ class FrontEndDeveloperTests {
       // Tests
       boolean contains = printedToScreen.contains("\"x\": Exit the database program") &&
           printedToScreen.contains("\"ls\": Search for the nearest bridge to the set reference location")
-          && printedToScreen.contains("\"l\": Set or reset refernce location") && 
+          && printedToScreen.contains("\"l\": Set or reset reference location") && 
           printedToScreen.contains("\"v\": View information for the last bridge visited");
       assertNotNull(frontend);
       assertTrue(contains);
