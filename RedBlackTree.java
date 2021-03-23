@@ -1,10 +1,11 @@
-// --== CS400 File Header Information ==--
-// Name: Colby Brown
-// Email: csbrown7@wisc.edu
-// Team: CC
-// TA: Xi Chen
-// Lecturer: Gary Dahl
-// Notes to Grader:
+//--== CS400 File Header Information ==--
+//Name: Colby Brown
+//Email: csbrown7@wisc.edu
+//Team: CC Red
+//Role: Backend Developer
+//TA: Xi Chen
+//Lecturer: Gary Dahl
+//Notes to Grader:
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;

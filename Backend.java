@@ -6,6 +6,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
+//--== CS400 File Header Information ==--
+//Name: Colby Brown
+//Email: csbrown7@wisc.edu
+//Team: CC Red
+//Role: Backend Developer
+//TA: Xi Chen
+//Lecturer: Gary Dahl
+//Notes to Grader: 
+
 public class Backend implements BackendInterface {
   
   //BridgeDataObject
