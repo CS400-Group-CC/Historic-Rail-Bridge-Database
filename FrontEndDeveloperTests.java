@@ -49,7 +49,12 @@ class FrontEndDeveloperTests {
         "Bridge 1450,42.540064,-90.375658,B,P.R.S.,64,-1,,1,N,,,,,,,,,pre-1917,Removed,11-30-1942,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
     Scanner readInput = new Scanner(inputData);
     readInput.useDelimiter(",");
-    backend = new Backend(readInput);
+    try {
+      backend = new Backend(readInput);
+    }
+    catch (Exception e) {
+      backend = null;
+    }
     enter = System.lineSeparator();
   }
   
