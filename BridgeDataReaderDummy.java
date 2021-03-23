@@ -1,14 +1,16 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class BridgeDataReaderDummy implements BridgeDataReaderInterface {
 
-  public BridgeDataReaderDummy(String[] args) {
+  public BridgeDataReaderDummy(String[] args) throws DataFormatException, FileNotFoundException {
     
   }
   
-  public BridgeDataReaderDummy(Scanner input) {
+  public BridgeDataReaderDummy(Scanner input) throws DataFormatException {
     
   }
   

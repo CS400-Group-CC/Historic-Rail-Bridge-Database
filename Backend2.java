@@ -1,8 +1,10 @@
 import java.awt.List;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class Backend2 implements BackendInterface {
   
@@ -17,8 +19,14 @@ public class Backend2 implements BackendInterface {
    * 
    * @param args
    */
-  public Backend2(String[] args ) {
+  public Backend2(String[] args ) throws DataFormatException, FileNotFoundException {
+    try {
     bridgeDataReader = new BridgeDataReaderDummy(args);
+    } catch (DataFormatException e) {
+      throw e;
+    } catch (FileNotFoundException e) {
+      throw e;
+    }
     
     tree = new RedBlackTree<BridgeInterface>();
     
@@ -31,8 +39,12 @@ public class Backend2 implements BackendInterface {
    * 
    * @param input
    */
-  public Backend2(Scanner input) {
+  public Backend2(Scanner input) throws DataFormatException {
+    try {
     bridgeDataReader = new BridgeDataReaderDummy(input);
+    } catch (DataFormatException e) {
+      throw e;
+    }
     
     tree = new RedBlackTree<BridgeInterface>();
     
@@ -119,7 +131,7 @@ public class Backend2 implements BackendInterface {
    * @param current bridge
    * @return next bridge
    */
-  public BridgeInterface getNext(BridgeInterface current) {
+   public BridgeInterface getNext(BridgeInterface current) throws NoSuchElementException {
     
     Iterator<BridgeInterface> iterator = tree.iterator();
     
@@ -133,11 +145,11 @@ public class Backend2 implements BackendInterface {
           foundBridge = iterator.next();
         }
         found = true;
-      } else {
-        if (iterator.hasNext())
-          iterator.next();
       }
     }
+    
+    if (foundBridge == null)
+      throw new NoSuchElementException("No next bridge");
     
     return foundBridge;
   }
@@ -149,27 +161,29 @@ public class Backend2 implements BackendInterface {
    * @param current bridge
    * @return previous bridge
    */
-  public BridgeInterface getPrevious(BridgeInterface current) {
-    Iterator<BridgeInterface> iterator = tree.iterator();
-    
-    boolean found = false;
-    BridgeInterface foundBridge = null;
-    BridgeInterface previous = null;
-    
-    while (iterator.hasNext() && found == false) {
-      BridgeInterface currentBridge = iterator.next();
-      if (currentBridge.compareTo(current) == 0) {
-        foundBridge = previous;
-        found = true;
-      } else {
-        previous = currentBridge;
-        iterator.next();
-      }
-    }
-    
-    return foundBridge;
-    
-  }
+   public BridgeInterface getPrevious(BridgeInterface current) throws NoSuchElementException {
+     Iterator<BridgeInterface> iterator = tree.iterator();
+     
+     boolean found = false;
+     BridgeInterface foundBridge = null;
+     BridgeInterface previous = null;
+     
+     while (iterator.hasNext() && found == false) {
+       BridgeInterface currentBridge = iterator.next();
+       if (currentBridge.compareTo(current) == 0) {
+         foundBridge = previous;
+         found = true;
+       } else {
+         previous = currentBridge;
+       }
+     }
+     
+     if (foundBridge == null)
+       throw new NoSuchElementException("No Previous Bridges");
+     
+     return foundBridge;
+     
+   }
   
   /**
    * Gets root bridge
