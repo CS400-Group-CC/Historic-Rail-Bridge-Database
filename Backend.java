@@ -131,7 +131,7 @@ public class Backend implements BackendInterface {
    * @param current bridge
    * @return next bridge
    */
-  public BridgeInterface getNext(BridgeInterface current) throws NoSuchElementException {
+  public BridgeInterface getNext(BridgeInterface current) {
     
     Iterator<BridgeInterface> iterator = tree.iterator();
     
@@ -148,9 +148,6 @@ public class Backend implements BackendInterface {
       }
     }
     
-    if (foundBridge == null)
-      throw new NoSuchElementException("No next bridge");
-    
     return foundBridge;
   }
   
@@ -161,7 +158,7 @@ public class Backend implements BackendInterface {
    * @param current bridge
    * @return previous bridge
    */
-  public BridgeInterface getPrevious(BridgeInterface current) throws NoSuchElementException {
+  public BridgeInterface getPrevious(BridgeInterface current) {
     Iterator<BridgeInterface> iterator = tree.iterator();
     
     boolean found = false;
@@ -177,9 +174,6 @@ public class Backend implements BackendInterface {
         previous = currentBridge;
       }
     }
-    
-    if (foundBridge == null)
-      throw new NoSuchElementException("No Previous Bridges");
     
     return foundBridge;
     
