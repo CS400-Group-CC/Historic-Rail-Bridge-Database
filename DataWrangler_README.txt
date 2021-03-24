@@ -24,7 +24,7 @@ BridgeVersionInterface.java - Defines specific functions required for iterations
 CulvertVersionInterface.java - Defines specific functions required for iterations of a bridge/culvert which are a culvert
 
 ICBridges.csv - Contains information about Illinois Central rail bridges between Dodgeville and Jonesdale, written in collaboration with Jeremy Peplinski
-CNWBridges.csv - Contains information about Chicago & Northwestern rail bridges between Montfort and Galena, written in collaboration with Jeremy Peplinski
+CNWBridges.csv - Contains information about Chicago & Northwestern rail bridges between Elmo and Galena, written in collaboration with Jeremy Peplinski
 
 Additional Contributions:
 -------------------------
