@@ -11,10 +11,12 @@
 
 runCNW: compile
 	export COLUMNS
+	echo $$COLUMNS
 	java Frontend CNWBridges.csv
 
 runIC: compile
 	export COLUMNS
+	echo $$COLUMNS
 	java Frontend ICBridges.csv
 
 compile: compileRedBlackTree compileSystems compileTests 
